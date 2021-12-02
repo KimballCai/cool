@@ -30,6 +30,9 @@ where the five arguments are as follows:
 4. the output directory for the compacted dataset
 5. the chunk size
 
+`java -cp ./target/cool-0.1-SNAPSHOT.jar com.nus.cool.loader.LocalLoader sogamo/table.yaml sogamo/dim_test.csv sogamo/test.csv ./test 65536`
+`java -cp ./target/cool-0.1-SNAPSHOT.jar com.nus.cool.loader.LocalLoader sogamo/table.yaml sogamo/dim_test.csv sogamo/test.csv test 100000`
+
 ### HOW TO RUN - COHORT QUERY
 We have given an example for cohort query processing in [CohortLoader.java](src/main/java/com/nus/cool/loader/CohortLoader.java).
 

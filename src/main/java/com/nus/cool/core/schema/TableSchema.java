@@ -18,6 +18,9 @@ package com.nus.cool.core.schema;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.google.common.collect.Maps;
+
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -70,6 +73,9 @@ public class TableSchema {
   public static TableSchema read(InputStream in) throws IOException {
     ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
     return mapper.readValue(in, TableSchema.class);
+  }
+  public static TableSchema read(File inputFile) throws IOException {
+    return read(new FileInputStream(inputFile));
   }
 
   public void setFields(List<FieldSchema> fields) {

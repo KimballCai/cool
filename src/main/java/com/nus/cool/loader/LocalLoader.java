@@ -44,7 +44,7 @@ public class LocalLoader {
   private static List<Integer> chunkOffsets = Lists.newArrayList();
 
   public static void load(TableSchema tableSchema, File dimensionFile, File dataFile,
-      File outputDir, int chunkSize) throws IOException {
+                          File outputDir, int chunkSize) throws IOException {
     TupleParser parser = new CsvTupleParser();
     MetaChunkWS metaChunk = newMetaChunk(dimensionFile, tableSchema, parser);
     DataOutputStream out = newCublet(outputDir, metaChunk);
@@ -112,6 +112,30 @@ public class LocalLoader {
     out.writeInt(IntegerUtil.toNativeByteOrder(headOffset));
     out.flush();
     out.close();
+  }
+  public static void main(String[] args) throws IOException {
+    long beg = System.currentTimeMillis();
+    // Read table schema
+    File schemaFile = new File(args[0]);
+    TableSchema schema = TableSchema.read(schemaFile);
+    TupleParser parser = new CsvTupleParser();
+
+    File metaChunkFile = new File(args[1]);
+    MetaChunkWS metaChunk = newMetaChunk(metaChunkFile, schema, parser);
+
+    // Generate data compress file
+    File inputDataFile = new File(args[2]);
+    File outputDir = new File(args[3]);
+    // String fileName = Long.toHexString(System.currentTimeMillis());
+    // File outputFile = new File(outputDir, fileName + ".dz");
+
+    int chunkSize = Integer.parseInt(args[4]);
+    int numChunk = 0;
+    int splitColumn = schema.getUserKeyField();
+    String lastUser = null;
+
+    load(schema, metaChunkFile, inputDataFile, outputDir, chunkSize);
+
   }
 
 }
